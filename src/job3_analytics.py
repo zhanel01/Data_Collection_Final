@@ -22,10 +22,10 @@ def compute_daily_analytics():
     
     conn = get_connection()
     
-    # Get yesterday's date
+    
     yesterday = target_date = datetime.now().date()
     
-    # Query all records from yesterday
+   
     query = 'SELECT * FROM events WHERE DATE(last_updated) = ?'  
     df = pd.read_sql_query(query, conn, params=(yesterday,))
     
@@ -36,41 +36,41 @@ def compute_daily_analytics():
     
     print(f"Analyzing {len(df)} cryptocurrency records for date: {yesterday}")
     
-    # Compute analytics using pandas
+    
     analytics = {}
     
-    # Basic statistics
+    
     analytics['summary_date'] = yesterday
     analytics['total_records'] = len(df)
     analytics['unique_coins'] = df['coin_id'].nunique()
     
-    # Price statistics
+    
     analytics['avg_price'] = df['current_price'].mean()
     analytics['max_price'] = df['current_price'].max()
     analytics['min_price'] = df['current_price'].min()
     
-    # Market cap statistics
+    
     analytics['total_market_cap'] = df['market_cap'].sum()
     
-    # Price change statistics
+    
     analytics['avg_price_change_24h'] = df['price_change_percentage_24h'].mean()
     
-    # Top coin by market cap
+    
     top_coin_idx = df['market_cap'].idxmax()
     analytics['top_coin_by_market_cap'] = df.loc[top_coin_idx, 'name']
     analytics['top_coin_market_cap'] = df.loc[top_coin_idx, 'market_cap']
     
-    # Most volatile coin (highest absolute price change percentage)
+   
     df['abs_price_change'] = df['price_change_percentage_24h'].abs()
     most_volatile_idx = df['abs_price_change'].idxmax()
     analytics['most_volatile_coin'] = df.loc[most_volatile_idx, 'name']
     analytics['most_volatile_change'] = df.loc[most_volatile_idx, 'price_change_percentage_24h']
     
-    # Price change distribution
+    
     analytics['coins_with_price_increase'] = len(df[df['price_change_percentage_24h'] > 0])
     analytics['coins_with_price_decrease'] = len(df[df['price_change_percentage_24h'] < 0])
     
-    # Print summary
+    
     print(f"\n=== Daily Analytics Summary for {yesterday} ===")
     print(f"Total records: {analytics['total_records']}")
     print(f"Unique coins: {analytics['unique_coins']}")
@@ -82,7 +82,7 @@ def compute_daily_analytics():
     print(f"Price increases: {analytics['coins_with_price_increase']}")
     print(f"Price decreases: {analytics['coins_with_price_decrease']}")
     
-    # Store analytics in database
+    
     cursor = conn.cursor()
     cursor.execute('''
         INSERT OR REPLACE INTO daily_summary 

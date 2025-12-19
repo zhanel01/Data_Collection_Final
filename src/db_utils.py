@@ -4,25 +4,16 @@ import os
 DB_PATH = '/opt/airflow/data/crypto.db' 
 
 def get_connection():
-    """
-    Creates and returns a connection to the SQLite database.
-    Creates the directory if it doesn't exist.
-    """
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     return conn
 
 def init_database():
-    """
-    Initializes the database by creating necessary tables if they don't exist.
-    Creates two tables:
-    1. events - stores cleaned cryptocurrency data
-    2. daily_summary - stores daily analytics results
-    """
+    
     conn = get_connection()
     cursor = conn.cursor()
     
-    # Table for cleaned cryptocurrency data
+   
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS events (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +40,7 @@ def init_database():
         )
     ''')
     
-    # Table for daily analytics summary
+    
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS daily_summary (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

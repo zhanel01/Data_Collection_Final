@@ -26,10 +26,6 @@ dag = DAG(
 )
 
 def run_producer():
-    """
-    Runs the Kafka producer to fetch cryptocurrency data.
-    Duration: 2 minutes of continuous fetching.
-    """
     produce_to_kafka(duration_minutes=2)
 
 ingestion_task = PythonOperator(

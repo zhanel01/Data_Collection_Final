@@ -11,10 +11,7 @@ COINGECKO_API_KEY = os.getenv('COINGECKO_API_KEY', 'CG-tUjy8xDi8t81ceqaTCYUVmEC'
 COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/markets'
 
 def create_kafka_producer():
-    """
-    Creates and returns a Kafka producer with retry logic.
-    Retries up to 15 times with 10 second delays between attempts.
-    """
+    
     max_retries = 15
     retry_delay = 10
 
@@ -39,13 +36,7 @@ def create_kafka_producer():
                 raise
 
 def fetch_crypto_data():
-    """
-    Fetch cryptocurrency market data from CoinGecko API.
-    Returns top 250 cryptocurrencies by market cap.
     
-    Returns:
-        list: List of cryptocurrency data dictionaries, or empty list on error
-    """
     headers = {
         'x-cg-demo-api-key': COINGECKO_API_KEY
     }
@@ -84,13 +75,7 @@ def fetch_crypto_data():
         return []
 
 def produce_to_kafka(duration_minutes=2):
-    """
-    Continuously fetch crypto data and send to Kafka.
-    Runs for specified duration in minutes.
     
-    Args:
-        duration_minutes (int): How long to run the continuous ingestion
-    """
     producer = create_kafka_producer()
     start_time = time.time()
     iteration = 0
@@ -144,7 +129,7 @@ def produce_to_kafka(duration_minutes=2):
         else:
             print("No cryptocurrency data fetched")
         
-        # Wait 2 minutes between fetches (CoinGecko updates frequently)
+        
         print("Waiting 2 minutes before next fetch...")
         time.sleep(120)
     
