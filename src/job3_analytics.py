@@ -23,7 +23,7 @@ def compute_daily_analytics():
     conn = get_connection()
     
     # Get yesterday's date
-    yesterday = (datetime.now() - timedelta(days=1)).date()
+    yesterday = target_date = datetime.now().date()
     
     # Query all records from yesterday
     query = 'SELECT * FROM events WHERE DATE(last_updated) = ?'  
