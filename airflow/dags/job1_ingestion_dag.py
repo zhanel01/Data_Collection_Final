@@ -20,13 +20,13 @@ dag = DAG(
     'job1_crypto_continuous_ingestion',
     default_args=default_args,
     description='DAG 1: Continuous cryptocurrency data ingestion from CoinGecko API to Kafka',
-    schedule_interval='@hourly',
+    schedule_interval= None,
     catchup=False,
     tags=['ingestion', 'kafka', 'cryptocurrency', 'coingecko']
 )
 
 def run_producer():
-    produce_to_kafka(duration_minutes=2)
+    produce_to_kafka()
 
 ingestion_task = PythonOperator(
     task_id='fetch_crypto_and_produce_to_kafka',
